@@ -1,0 +1,8 @@
+Import('env')
+
+
+common_mir=[\
+	"os_mir.cpp",\
+]
+
+env.Program('#bin/godot',['godot_mir.cpp']+common_mir)
