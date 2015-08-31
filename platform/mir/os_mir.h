@@ -2,10 +2,14 @@
 #define OS_MIR_H
 
 #include "drivers/unix/os_unix.h"
+#include "servers/visual_server.h"
+#include "servers/visual/rasterizer.h"
 
 class OS_Mir : public OS_Unix
 {
 	MainLoop *main_loop;
+	Rasterizer *rasterizer;
+	VisualServer *visual_server;
 
 protected:
 	int get_video_driver_count() const;

@@ -33,6 +33,9 @@
 #include <stdlib.h>
 #endif
 
+#if defined(GLEW_ENABLED)
 #define GLES2_INCLUDE_H "gl_context/glew.h"
-
+#else
+#define GLES2_INCLUDE_H <GLES2/gl2.h>
+#endif
 

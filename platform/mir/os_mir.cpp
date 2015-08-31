@@ -1,26 +1,20 @@
 #include "os_mir.h"
 #include "main/main.h"
+#include "servers/visual/visual_server_raster.h"
+#include "servers/visual/visual_server_wrap_mt.h"
+#include "drivers/gles2/rasterizer_gles2.h"
 
 // Herein lies the skeleton of a class, to be embodied at a later date
-int OS_Mir::get_video_driver_count() const
-{
-	return 0;
-}
-
-const char *OS_Mir::get_video_driver_name(int index) const
-{
-	return "";
-}
-
-OS_Mir::VideoMode OS_Mir::get_default_video_mode() const
-{
-	OS::VideoMode sham;
-	return sham;
-}
-
 void OS_Mir::initialize(const VideoMode &p_desired, int p_video_driver,
                     int p_audio_driver)
 {
+	rasterizer = memnew(RasterizerGLES2);
+	visual_server = memnew(VisualServerRaster(rasterizer));
+	if (get_render_thread_mode() != RENDER_THREAD_UNSAFE) {
+		visual_server = memnew(VisualServerWrapMT(visual_server,
+		           get_render_thread_mode() == RENDER_SEPARATE_THREAD));
+	}
+	visual_server->init();
 }
 
 void OS_Mir::set_main_loop(MainLoop *p_main_loop)
@@ -86,6 +80,20 @@ void OS_Mir::set_cursor_shape(CursorShape p_shape)
 {
 }
 // Everything below this line should be flesh, rather than bone
+int OS_Mir::get_video_driver_count() const
+{
+	return 1;
+}
+
+const char *OS_Mir::get_video_driver_name(int index) const
+{
+	return "GLES2";
+}
+
+OS_Mir::VideoMode OS_Mir::get_default_video_mode() const
+{
+	return OS::VideoMode(800, 600, false);
+}
 
 String OS_Mir::get_data_dir() const
 {
