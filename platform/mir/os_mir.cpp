@@ -6,7 +6,7 @@
 
 // Herein lies the skeleton of a class, to be embodied at a later date
 void OS_Mir::initialize(const VideoMode &p_desired, int p_video_driver,
-                    int p_audio_driver)
+                        int p_audio_driver)
 {
 	rasterizer = memnew(RasterizerGLES2);
 	visual_server = memnew(VisualServerRaster(rasterizer));
@@ -54,7 +54,8 @@ OS_Mir::VideoMode OS_Mir::get_video_mode(int p_screen) const
 	return sham;
 }
 
-void OS_Mir::get_fullscreen_mode_list(List<VideoMode> *p_list, int p_screen) const
+void OS_Mir::get_fullscreen_mode_list(List<VideoMode> *p_list,
+                                      int p_screen) const
 {
 }
 
